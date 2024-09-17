@@ -56,7 +56,7 @@ minetest.override_item("default:chest_locked", {}) -- update defs
 -- Players
 -- 1: Allow
 -- 2: Action
-minetest.register_allow_player_inventory_action(function() return 10 end)
+--minetest.register_allow_player_inventory_action(function() return 10 end)
 minetest.register_on_player_inventory_action(function() end)
 minetest.register_on_player_inventory_action(function() end)
 hook_fcn(minetest.registered_allow_player_inventory_actions, 1)

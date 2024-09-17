@@ -31,7 +31,10 @@ minetest.register_chatcommand("particles", {
 			maxpos = vector_rand(pos, 5),
 			minvel = vector_rand({x=0, y=0.2, z=0}, 0.1),
 			maxvel = vector_rand({x=0, y=0.2, z=0}, 0.1),
-			texture = "heart.png",
+			--texture = { name = "heart.png", blend = "alpha"},
+			texpool = {
+				{ name = "heart.png", blend = "alpha", scale = 2 },
+			},
 			minsize = 3,
 			maxsize = 4,
 			glow = 2
