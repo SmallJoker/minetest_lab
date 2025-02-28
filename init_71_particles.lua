@@ -58,3 +58,21 @@ core.register_on_punchnode(function(pos, node, puncher, pointed_thing)
 		node_tile = 6,
 	})
 end)
+
+local rnd = math.random
+minetest.register_globalstep(function(dtime)
+	for _,player in ipairs(minetest.get_connected_players()) do
+		minetest.add_particle({
+			pos = vector.add(player:get_pos(),vector.new(rnd(-3,3), rnd(-3,3), rnd(-3,3))),
+			velocity = vector.new(rnd(-5,5), rnd(-5,5), rnd(-5,5)),
+			acceleration = vector.zero(),
+			expirationtime = 1,
+			size = 2,
+			collisiondetection = false,
+			collision_removal = false,
+			vertical = false,
+			texture = "bubble.png",
+			glow = 14
+		})
+	end
+end)
