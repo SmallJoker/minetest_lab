@@ -19,6 +19,41 @@ minetest.register_chatcommand("particle", {
 		return true
 	end,
 })
+
+
+
+-- By DragonWrangler1, https://github.com/luanti-org/luanti/issues/16450#issuecomment-3238611438
+-- For PR #16458
+core.register_chatcommand("spam", {
+	params = "",
+	func = function(name, param)
+		local pos = core.get_player_by_name(name):get_pos()
+        pos.y = pos.y + 1.5 -- a bit above player
+
+        for i = 1, 100 do
+            core.add_particle({
+                pos = {
+                    x = pos.x + math.random(-10, 10) / 10,
+                    y = pos.y + math.random(-10, 10) / 10,
+                    z = pos.z + math.random(-10, 10) / 10,
+                },
+                velocity = {
+                    x = math.random(-20, 20) / 10,
+                    y = math.random(5, 20) / 10,
+                    z = math.random(-20, 20) / 10,
+                },
+                acceleration = {x = 0, y = -4, z = 0},
+                expirationtime = math.random(5, 15) / 10,
+                size = math.random(1, 3),
+                texture = "heart.png",
+                glow = 5,
+            })
+        end
+    end,
+})
+
+
+-- 'texpool' field
 minetest.register_chatcommand("particles", {
 	params = "<n count>",
 	func = function(name, param)
@@ -43,6 +78,7 @@ minetest.register_chatcommand("particles", {
 	end,
 })
 
+-- 'node' field
 core.register_on_punchnode(function(pos, node, puncher, pointed_thing)
 	pos.y = pos.y + 0.55
 	local g = vector.new(0, -9.81, 0)
@@ -59,10 +95,22 @@ core.register_on_punchnode(function(pos, node, puncher, pointed_thing)
 	})
 end)
 
+-- 'glow' field
+local do_glow = false
+minetest.register_chatcommand("glow", {
+	func = function(name, param)
+		do_glow = not do_glow
+		return true, "Set to: " .. tostring(do_glow)
+	end
+})
+
 local rnd = math.random
-minetest.register_globalstep(function(dtime)
-	for _,player in ipairs(minetest.get_connected_players()) do
-		minetest.add_particle({
+core.register_globalstep(function(dtime)
+	if not do_glow then
+		return
+	end
+	for _, player in ipairs(core.get_connected_players()) do
+		core.add_particle({
 			pos = vector.add(player:get_pos(),vector.new(rnd(-3,3), rnd(-3,3), rnd(-3,3))),
 			velocity = vector.new(rnd(-5,5), rnd(-5,5), rnd(-5,5)),
 			acceleration = vector.zero(),

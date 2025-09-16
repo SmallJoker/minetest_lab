@@ -1,4 +1,4 @@
-local INIT_NUM = "173"
+local INIT_NUM = "191"
 
 -- ############################################################## --
 
@@ -6,8 +6,8 @@ lab = {}
 lab.ie = core.request_insecure_environment()
 lab.http = core.request_http_api()
 
-local modpath = minetest.get_modpath(minetest.get_current_modname())
-local files = minetest.get_dir_list(modpath, false)
+local modpath = core.get_modpath(core.get_current_modname())
+local files = core.get_dir_list(modpath, false)
 
 for i, file in ipairs(files) do
 	if file:find("^init_" .. INIT_NUM .. "_[^.]*.lua$") then

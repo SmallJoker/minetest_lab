@@ -33,3 +33,18 @@ core.register_chatcommand("show", {
 		return true
 	end
 })
+
+-- https://github.com/luanti-org/luanti/pull/16445
+core.register_chatcommand("banana", {
+	func = function(name, param)
+		local s = "i am a banana"
+		local ret = core.dynamic_add_media({
+			filename = "dummy.obj",
+			filedata = s,
+			client_cache = false,
+			to_player = name
+		}, function() end)
+		print("ret=" .. tostring(ret))
+		print("sha1=" .. core.sha1(s))
+	end
+})
